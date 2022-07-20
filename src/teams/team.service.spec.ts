@@ -1,12 +1,31 @@
-import developmentDataSource from '../development.data-source';
-import Team from './Team.entity';
-import TeamService from './team.service';
+import { Team } from './Team.entity';
+import { TeamService } from './team.service';
 
+import developmentDataSource from '../development.data-source';
 import { transaction } from '../helpers/testing';
 
 describe('TeamService', () => {
   beforeAll(async () => {
     await developmentDataSource.initialize();
+  });
+
+  it('can list', async () => {
+    await transaction(developmentDataSource, async (manager) => {
+      const repo = manager.getRepository(Team);
+      const service = new TeamService(repo);
+
+      const names = ['Team 1', 'Team 2'];
+      const teams = await Promise.all(
+        names.map((name) => {
+          const team = new Team();
+          team.name = name;
+          return service.create(team);
+        }),
+      );
+
+      const found = await service.list();
+      expect(found).toEqual(teams);
+    });
   });
 
   it('can create', async () => {

@@ -1,11 +1,23 @@
 import { Repository } from 'typeorm';
-import Team from './Team.entity';
+import { Team } from './Team.entity';
 
-class TeamService {
+export interface ITeamService {
+  list(): Promise<Team[]>;
+  create(team: Team): Promise<Team>;
+  find(id: string): Promise<Team | null>;
+  update(id: string, props: Partial<Team>): Promise<Team>;
+  delete(id: string): Promise<void>;
+}
+
+export class TeamService implements ITeamService {
   constructor(private repo: Repository<Team>) {}
 
-  async create(team: Team): Promise<void> {
-    await this.repo.save(team);
+  async list(): Promise<Team[]> {
+    return this.repo.find();
+  }
+
+  async create(team: Team): Promise<Team> {
+    return this.repo.save(team);
   }
 
   async find(id: string): Promise<Team | null> {
@@ -13,13 +25,10 @@ class TeamService {
   }
 
   async update(id: string, props: Partial<Team>): Promise<Team> {
-    await this.repo.update({ id }, props);
-    return this.find(id);
+    return this.repo.save({ id, ...props });
   }
 
   async delete(id: string): Promise<void> {
     await this.repo.delete({ id });
   }
 }
-
-export default TeamService;
