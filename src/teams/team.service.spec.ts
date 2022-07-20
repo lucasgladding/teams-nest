@@ -1,6 +1,6 @@
 import developmentDataSource from '../development.data-source';
 import Team from './Team.entity';
-import TeamService from './TeamService';
+import TeamService from './team.service';
 
 import { transaction } from '../helpers/testing';
 
