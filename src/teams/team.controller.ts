@@ -1,10 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Inject } from '@nestjs/common';
 import { Team } from './team.entity';
 import { ITeamService } from './team.service';
 
-@Controller()
+@Controller('teams')
 export class TeamController {
-  constructor(private service: ITeamService) {}
+  constructor(
+    @Inject('services.teams')
+    private service: ITeamService,
+  ) {}
 
   @Get()
   async list(): Promise<Team[]> {

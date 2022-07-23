@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Team } from './Team.entity';
 
@@ -9,8 +11,12 @@ export interface ITeamService {
   delete(id: string): Promise<void>;
 }
 
+@Injectable()
 export class TeamService implements ITeamService {
-  constructor(private repo: Repository<Team>) {}
+  constructor(
+    @InjectRepository(Team)
+    private repo: Repository<Team>,
+  ) {}
 
   async list(): Promise<Team[]> {
     return this.repo.find();

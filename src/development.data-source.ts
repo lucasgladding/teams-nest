@@ -1,6 +1,6 @@
-import { DataSource } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 
-const developmentDataSource = new DataSource({
+export const options: DataSourceOptions = {
   type: 'mysql',
   host: 'localhost',
   port: 3306,
@@ -9,6 +9,8 @@ const developmentDataSource = new DataSource({
   database: 'teams',
   entities: ['src/**/*.entity.ts'],
   migrations: ['src/migrations/*.ts'],
-});
+};
+
+const developmentDataSource = new DataSource(options);
 
 export default developmentDataSource;
