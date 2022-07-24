@@ -11,6 +11,6 @@ export const options: DataSourceOptions = {
   migrations: ['src/migrations/*.ts'],
 };
 
-const developmentDataSource = new DataSource(options);
+const source = new DataSource(options);
 
-export default developmentDataSource;
+export default source;
