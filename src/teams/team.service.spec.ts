@@ -1,14 +1,31 @@
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
+
 import { Team } from './Team.entity';
 import { TeamFactory } from './team.factory';
 import { TeamService } from './team.service';
 
+import { createDataSource } from '../data-source';
 import { transaction } from '../helpers/testing';
 
-import source from '../local.data-source';
-
 describe('TeamService', () => {
+  let source: DataSource;
+
   beforeAll(async () => {
-    await source.initialize();
+    const app: TestingModule = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot(),
+        TypeOrmModule.forRootAsync({
+          imports: [ConfigModule],
+          inject: [ConfigService],
+          useFactory: createDataSource,
+        }),
+      ],
+    }).compile();
+
+    source = app.get<DataSource>(DataSource);
   });
 
   afterAll(async () => {
