@@ -35,7 +35,7 @@ describe('TeamService', () => {
   it('can list', async () => {
     await transaction(source, async (manager) => {
       const count = 10;
-      const factory = new TeamFactory(manager, Team);
+      const factory = new TeamFactory(manager);
       await factory.createCount(count);
 
       const repo = manager.getRepository(Team);
@@ -62,7 +62,7 @@ describe('TeamService', () => {
 
   it('can update', async () => {
     await transaction(source, async (manager) => {
-      const factory = new TeamFactory(manager, Team);
+      const factory = new TeamFactory(manager);
       const team = await factory.create();
 
       const repo = manager.getRepository(Team);
@@ -77,7 +77,7 @@ describe('TeamService', () => {
 
   it('can delete', async () => {
     await transaction(source, async (manager) => {
-      const factory = new TeamFactory(manager, Team);
+      const factory = new TeamFactory(manager);
       const team = await factory.create();
 
       const repo = manager.getRepository(Team);
