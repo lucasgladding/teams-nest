@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 
-import { Team } from './Team.entity';
+import { Team } from './team.entity';
 import { TeamFactory } from './team.factory';
 import { TeamService } from './team.service';
 

@@ -1,7 +1,7 @@
 import { Team } from './team.entity';
-import { ITeamService } from './team.service';
+import { ServiceContract } from '../base.service';
 
-export class StubTeamService implements ITeamService {
+export class StubTeamService implements ServiceContract<Team> {
   list(): Promise<Team[]> {
     return Promise.resolve([]);
   }

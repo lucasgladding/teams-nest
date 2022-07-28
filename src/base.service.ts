@@ -1,10 +1,7 @@
-import { FindOptionsWhereProperty, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
+import { BaseEntity } from './base.entity';
 
-interface Record {
-  id: string;
-}
-
-export interface Service<T> {
+export interface ServiceContract<T> {
   list(): Promise<T[]>;
   create(instance: T): Promise<T>;
   find(id: string): Promise<T | null>;
@@ -12,7 +9,8 @@ export interface Service<T> {
   delete(id: string): Promise<void>;
 }
 
-export class BaseService<T extends Record> implements Service<T> {
+// NOTE: types appear to cause problems with 'find where'
+export class BaseService<T extends BaseEntity> implements ServiceContract<T> {
   constructor(private repo: Repository<T>) {}
 
   async list(): Promise<T[]> {
@@ -24,14 +22,15 @@ export class BaseService<T extends Record> implements Service<T> {
   }
 
   async find(id: string): Promise<T | null> {
-    return this.repo.findOneBy({ id });
+    return this.repo.findOneBy({ id: id as any });
   }
 
   async update(id: string, props: Partial<T>): Promise<T> {
-    return this.repo.save({ id, ...props });
+    const data = { ...props, id } as unknown as T;
+    return this.repo.save(data);
   }
 
   async delete(id: string): Promise<void> {
-    await this.repo.delete({ id });
+    await this.repo.delete({ id: id as any });
   }
 }

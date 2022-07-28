@@ -1,12 +1,12 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { Team } from './team.entity';
-import { ITeamService } from './team.service';
+import { ServiceContract } from '../base.service';
 
 @Controller('teams')
 export class TeamController {
   constructor(
     @Inject('services.teams')
-    private service: ITeamService,
+    private service: ServiceContract<Team>,
   ) {}
 
   @Get()
