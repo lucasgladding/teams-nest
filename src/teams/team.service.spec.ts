@@ -26,6 +26,9 @@ describe('TeamService', () => {
     }).compile();
 
     source = app.get<DataSource>(DataSource);
+
+    const repo = source.manager.getRepository(Team);
+    await repo.clear();
   });
 
   afterAll(async () => {
@@ -68,10 +71,11 @@ describe('TeamService', () => {
       const repo = manager.getRepository(Team);
       const service = new TeamService(repo);
 
-      const props = { name: 'Team 2' };
-      const updated = await service.update(team.id, props);
+      const update = new Team();
+      update.name = 'Team 2';
+      const updated = await service.update(team.id, update);
 
-      expect(updated).toEqual(expect.objectContaining(props));
+      expect(updated).toEqual(expect.objectContaining(update));
     });
   });
 

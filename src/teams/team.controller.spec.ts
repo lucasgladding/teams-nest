@@ -20,5 +20,10 @@ describe('TeamController', () => {
     it('should return teams', () => {
       expect(controller.list()).resolves.toEqual([]);
     });
+
+    it('should create a team', () => {
+      const data = { name: 'team name ' };
+      expect(controller.create(data)).resolves.toEqual([]);
+    });
   });
 });

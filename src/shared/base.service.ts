@@ -1,11 +1,11 @@
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { BaseEntity } from './base.entity';
 
 export interface ServiceContract<T> {
   list(): Promise<T[]>;
   create(instance: T): Promise<T>;
   find(id: string): Promise<T | null>;
-  update(id: string, props: Partial<T>): Promise<T>;
+  update(id: string, instance: T): Promise<T>;
   delete(id: string): Promise<void>;
 }
 
@@ -25,9 +25,9 @@ export class BaseService<T extends BaseEntity> implements ServiceContract<T> {
     return this.repo.findOneBy({ id: id as any });
   }
 
-  async update(id: string, props: Partial<T>): Promise<T> {
-    const data = { ...props, id } as unknown as T;
-    return this.repo.save(data);
+  async update(id: string, instance: T): Promise<T> {
+    instance.id = id;
+    return this.repo.save(instance);
   }
 
   async delete(id: string): Promise<void> {

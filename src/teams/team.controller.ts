@@ -1,6 +1,11 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+
 import { Team } from './team.entity';
 import { ServiceContract } from '../shared/base.service';
+
+class CreateTeamDTO {
+  name: string;
+}
 
 @Controller('teams')
 export class TeamController {
@@ -12,5 +17,12 @@ export class TeamController {
   @Get()
   async list(): Promise<Team[]> {
     return this.service.list();
+  }
+
+  @Post()
+  async create(@Body() data: CreateTeamDTO) {
+    const team = new Team();
+    team.name = data.name;
+    return this.service.create(team);
   }
 }

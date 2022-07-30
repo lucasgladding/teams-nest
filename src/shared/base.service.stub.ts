@@ -1,3 +1,4 @@
+import { DeepPartial } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { ServiceContract } from './base.service';
 
@@ -16,7 +17,7 @@ export class StubBaseService<T extends BaseEntity>
     return Promise.resolve(undefined);
   }
 
-  update(id: string, props: Partial<T>): Promise<T> {
+  update(id: string, instance: T): Promise<T> {
     return Promise.resolve(undefined);
   }
 
