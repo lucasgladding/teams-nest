@@ -1,14 +1,15 @@
 import { EntityManager } from 'typeorm';
 import { faker } from '@faker-js/faker';
-import { Team } from './team.entity';
-import { Factory } from '../helpers/factory';
 
-export class TeamFactory extends Factory<Team> {
+import { Team } from './team.entity';
+import { BaseFactory } from '../shared/base.factory';
+
+export class TeamFactory extends BaseFactory<Team> {
   constructor(manager: EntityManager) {
     super(manager, Team);
   }
 
-  generate(): Factory.Generate<Team> {
+  generate(): BaseFactory.Generate<Team> {
     return {
       name: () => faker.word.noun(),
     };

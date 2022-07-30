@@ -1,16 +1,16 @@
 import { EntityManager } from 'typeorm';
 
-export namespace Factory {
+export namespace BaseFactory {
   export type Constructable<T> = new () => T;
   export type Generate<T> = {
     [P in keyof T as Exclude<P, 'id'>]: () => T[P];
   };
 }
 
-export abstract class Factory<T> {
+export abstract class BaseFactory<T> {
   constructor(
     protected manager: EntityManager,
-    private constructable: Factory.Constructable<T>,
+    private constructable: BaseFactory.Constructable<T>,
   ) {}
 
   async create(): Promise<T> {
@@ -19,7 +19,7 @@ export abstract class Factory<T> {
     return instance;
   }
 
-  async createCount(count: number): Promise<T[]> {
+  async createList(count: number): Promise<T[]> {
     return await Promise.all(
       Array(count)
         .fill(undefined)
@@ -40,5 +40,5 @@ export abstract class Factory<T> {
     return instance;
   }
 
-  abstract generate(): Factory.Generate<T>;
+  abstract generate(): BaseFactory.Generate<T>;
 }

@@ -1,6 +1,6 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { Team } from './team.entity';
-import { ServiceContract } from '../base.service';
+import { ServiceContract } from '../shared/base.service';
 
 @Controller('teams')
 export class TeamController {

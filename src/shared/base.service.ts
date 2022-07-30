@@ -11,7 +11,7 @@ export interface ServiceContract<T> {
 
 // NOTE: types appear to cause problems with 'find where'
 export class BaseService<T extends BaseEntity> implements ServiceContract<T> {
-  constructor(private repo: Repository<T>) {}
+  constructor(protected repo: Repository<T>) {}
 
   async list(): Promise<T[]> {
     return this.repo.find();

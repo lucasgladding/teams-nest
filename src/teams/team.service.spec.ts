@@ -36,7 +36,7 @@ describe('TeamService', () => {
     await transaction(source, async (manager) => {
       const count = 10;
       const factory = new TeamFactory(manager);
-      await factory.createCount(count);
+      await factory.createList(count);
 
       const repo = manager.getRepository(Team);
       const service = new TeamService(repo);

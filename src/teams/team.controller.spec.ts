@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TeamController } from './team.controller';
-import { StubTeamService } from './team.service.stub';
+import { StubBaseService } from '../shared/base.service.stub';
 
 describe('TeamController', () => {
   let controller: TeamController;
@@ -8,7 +8,9 @@ describe('TeamController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [TeamController],
-      providers: [{ provide: 'services.teams', useClass: StubTeamService }],
+      providers: [
+        { provide: 'services.teams', useFactory: () => new StubBaseService() },
+      ],
     }).compile();
 
     controller = app.get<TeamController>(TeamController);
