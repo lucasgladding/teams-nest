@@ -8,9 +8,9 @@ export namespace BaseFactory {
 }
 
 export abstract class BaseFactory<T> {
-  constructor(
+  protected constructor(
     protected manager: EntityManager,
-    private constructable: BaseFactory.Constructable<T>,
+    protected constructable: BaseFactory.Constructable<T>,
   ) {}
 
   async create(): Promise<T> {
