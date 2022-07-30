@@ -3,10 +3,6 @@ import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { Team } from './team.entity';
 import { ServiceContract } from '../shared/base.service';
 
-class CreateTeamDTO {
-  name: string;
-}
-
 @Controller('teams')
 export class TeamController {
   constructor(
@@ -20,7 +16,7 @@ export class TeamController {
   }
 
   @Post()
-  async create(@Body() data: CreateTeamDTO) {
+  async create(@Body() data: { name }) {
     const team = new Team();
     team.name = data.name;
     return this.service.create(team);
