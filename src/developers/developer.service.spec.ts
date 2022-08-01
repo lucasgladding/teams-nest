@@ -7,7 +7,7 @@ import { Developer } from './developer.entity';
 import { DeveloperFactory } from './developer.factory';
 import { DeveloperService } from './developer.service';
 
-import { createDataSource } from '../data-source';
+import { createDataSource } from '../datasource';
 import { transaction } from '../helpers/testing';
 
 describe('DeveloperService', () => {

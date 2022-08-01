@@ -4,9 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AssignmentModule } from './assignments/assignment.module';
+import { DeveloperModule } from './developers/developer.module';
 import { TeamModule } from './teams/team.module';
 
-import { createDataSource } from './data-source';
+import { createDataSource } from './datasource';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { createDataSource } from './data-source';
       inject: [ConfigService],
       useFactory: createDataSource,
     }),
+    AssignmentModule,
+    DeveloperModule,
     TeamModule,
   ],
   controllers: [AppController],

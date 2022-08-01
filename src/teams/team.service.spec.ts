@@ -7,7 +7,7 @@ import { Team } from './team.entity';
 import { TeamFactory } from './team.factory';
 import { TeamService } from './team.service';
 
-import { createDataSource } from '../data-source';
+import { createDataSource } from '../datasource';
 import { transaction } from '../helpers/testing';
 
 describe('TeamService', () => {

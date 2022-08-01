@@ -7,7 +7,7 @@ import { Assignment } from './assignment.entity';
 import { AssignmentFactory } from './assignment.factory';
 import { AssignmentService } from './assignment.service';
 
-import { createDataSource } from '../data-source';
+import { createDataSource } from '../datasource';
 import { transaction } from '../helpers/testing';
 
 describe('AssignmentService', () => {
