@@ -22,7 +22,7 @@ describe('TeamController', () => {
     });
 
     it('should create a team', () => {
-      const data = { name: 'team name ' };
+      const data = { name: 'team name' };
       expect(controller.create(data)).resolves.toEqual(data);
     });
   });

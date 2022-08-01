@@ -25,7 +25,7 @@ describe('DeveloperController', () => {
     });
 
     it('should create a developer', () => {
-      const data = { name: 'developer name ' };
+      const data = { name: 'developer name' };
       expect(controller.create(data)).resolves.toEqual(data);
     });
   });

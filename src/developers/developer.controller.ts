@@ -3,6 +3,10 @@ import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { Developer } from './developer.entity';
 import { ServiceContract } from '../shared/base.service';
 
+interface CreateDeveloperDTO {
+  name: string;
+}
+
 @Controller('developers')
 export class DeveloperController {
   constructor(
@@ -16,7 +20,7 @@ export class DeveloperController {
   }
 
   @Post()
-  async create(@Body() data: { name }) {
+  async create(@Body() data: CreateDeveloperDTO) {
     const developer = new Developer();
     developer.name = data.name;
     return this.service.create(developer);
