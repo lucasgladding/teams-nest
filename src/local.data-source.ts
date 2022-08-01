@@ -1,5 +1,7 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 
+// provides the data source for the included docker configuration
+// required for typeorm CLI
 export const options: DataSourceOptions = {
   type: 'mysql',
   host: 'localhost',
