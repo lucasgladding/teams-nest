@@ -8,13 +8,8 @@ async function seed() {
   await source.query('TRUNCATE TABLE developer');
   await source.query('TRUNCATE TABLE team');
 
-  const factories = {
-    developers: new DeveloperFactory(source.manager),
-    teams: new TeamFactory(source.manager),
-  } as const;
-
-  await factories.developers.createList(10);
-  await factories.teams.createList(10);
+  await new DeveloperFactory(source.manager).createList(10);
+  await new TeamFactory(source.manager).createList(10);
 
   await source.destroy();
 }

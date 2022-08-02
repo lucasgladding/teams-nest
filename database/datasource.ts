@@ -19,6 +19,6 @@ const contents = dotenv.config();
 
 const config = new ConfigService(contents);
 
-export const options = getDataSourceOptions(config);
+const options = getDataSourceOptions(config);
 
 export default new DataSource(options);
