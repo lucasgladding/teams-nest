@@ -7,7 +7,7 @@ import { Team } from './team.entity';
 import { TeamFactory } from './team.factory';
 import { TeamService } from './team.service';
 
-import { createDataSource } from '../datasource';
+import { getDataSourceOptions } from '../../database/datasource';
 import { transaction } from '../helpers/testing';
 
 describe('TeamService', () => {
@@ -20,7 +20,7 @@ describe('TeamService', () => {
         TypeOrmModule.forRootAsync({
           imports: [ConfigModule],
           inject: [ConfigService],
-          useFactory: createDataSource,
+          useFactory: getDataSourceOptions,
         }),
       ],
     }).compile();

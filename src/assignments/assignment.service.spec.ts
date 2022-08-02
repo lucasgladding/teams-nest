@@ -7,7 +7,7 @@ import { Assignment } from './assignment.entity';
 import { AssignmentFactory } from './assignment.factory';
 import { AssignmentService } from './assignment.service';
 
-import { createDataSource } from '../datasource';
+import { getDataSourceOptions } from '../../database/datasource';
 import { transaction } from '../helpers/testing';
 
 describe('AssignmentService', () => {
@@ -20,7 +20,7 @@ describe('AssignmentService', () => {
         TypeOrmModule.forRootAsync({
           imports: [ConfigModule],
           inject: [ConfigService],
-          useFactory: createDataSource,
+          useFactory: getDataSourceOptions,
         }),
       ],
     }).compile();

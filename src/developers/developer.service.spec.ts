@@ -7,7 +7,7 @@ import { Developer } from './developer.entity';
 import { DeveloperFactory } from './developer.factory';
 import { DeveloperService } from './developer.service';
 
-import { createDataSource } from '../datasource';
+import { getDataSourceOptions } from '../../database/datasource';
 import { transaction } from '../helpers/testing';
 
 describe('DeveloperService', () => {
@@ -20,7 +20,7 @@ describe('DeveloperService', () => {
         TypeOrmModule.forRootAsync({
           imports: [ConfigModule],
           inject: [ConfigService],
-          useFactory: createDataSource,
+          useFactory: getDataSourceOptions,
         }),
       ],
     }).compile();
