@@ -1,8 +1,7 @@
 import { ConfigService } from '@nestjs/config';
-import { DataSource, DataSourceOptions } from 'typeorm';
-import * as dotenv from 'dotenv';
+import { DataSourceOptions } from 'typeorm';
 
-export function getDataSourceOptions(config: ConfigService): DataSourceOptions {
+export function getDataSourceConfig(config: ConfigService): DataSourceOptions {
   return {
     type: 'mysql',
     host: config.get('DB_HOST'),
@@ -14,11 +13,3 @@ export function getDataSourceOptions(config: ConfigService): DataSourceOptions {
     migrations: ['migrations/*.ts'],
   };
 }
-
-const contents = dotenv.config();
-
-const config = new ConfigService(contents);
-
-const options = getDataSourceOptions(config);
-
-export default new DataSource(options);

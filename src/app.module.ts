@@ -8,7 +8,7 @@ import { AssignmentModule } from './assignments/assignment.module';
 import { DeveloperModule } from './developers/developer.module';
 import { TeamModule } from './teams/team.module';
 
-import { getDataSourceOptions } from '../database/datasource';
+import { getDataSourceConfig } from '../database/datasource/helpers';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { getDataSourceOptions } from '../database/datasource';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: getDataSourceOptions,
+      useFactory: getDataSourceConfig,
     }),
     AssignmentModule,
     DeveloperModule,
