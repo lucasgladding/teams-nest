@@ -24,21 +24,21 @@ export abstract class BaseFactory<T> {
       Array(count)
         .fill(undefined)
         .map(async () => {
-          const instance = this.build();
+          const instance = await this.build();
           await this.manager.save(instance);
           return instance;
         }),
     );
   }
 
-  build(): T {
+  async build(): Promise<T> {
     const instance = new this.constructable();
-    const generated = this.generate();
+    const generated = await this.generate();
     Object.keys(generated).forEach((name) => {
       instance[name] = generated[name]();
     });
     return instance;
   }
 
-  abstract generate(): BaseFactory.Generate<T>;
+  abstract generate(): Promise<BaseFactory.Generate<T>>;
 }

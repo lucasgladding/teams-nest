@@ -1,19 +1,37 @@
 import { EntityManager } from 'typeorm';
 import { faker } from '@faker-js/faker';
-
-import { Assignment } from './assignment.entity';
 import { BaseFactory } from '../shared/base.factory';
 
+import { Assignment } from './assignment.entity';
+import { Developer } from '../developers/developer.entity';
+import { Team } from '../teams/team.entity';
+
+type Generator = BaseFactory.Generate<Assignment>;
+
 export class AssignmentFactory extends BaseFactory<Assignment> {
+  private developers: Developer[] = [];
+
+  private teams: Team[] = [];
+
   constructor(manager: EntityManager) {
     super(manager, Assignment);
   }
 
-  generate(): BaseFactory.Generate<Assignment> {
+  private async preload(): Promise<void> {
+    if (this.developers.length === 0) {
+      this.developers = await this.manager.find(Developer);
+    }
+    if (this.teams.length === 0) {
+      this.teams = await this.manager.find(Team);
+    }
+  }
+
+  async generate(): Promise<Generator> {
+    await this.preload();
     return {
-      developer_id: () => faker.random.numeric(),
-      team_id: () => faker.random.numeric(),
-      starts_on: () => faker.date.future(),
+      developer_id: () => faker.helpers.arrayElement(this.developers).id,
+      team_id: () => faker.helpers.arrayElement(this.teams).id,
+      starts_on: () => faker.date.past(1),
     };
   }
 }
