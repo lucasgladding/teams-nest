@@ -1,3 +1,5 @@
+// Creates a data source that can be used with typeorm commands.
+
 import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
