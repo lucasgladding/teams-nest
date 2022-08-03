@@ -13,4 +13,13 @@ export class AssignmentService extends BaseService<Assignment> {
   ) {
     super(repo);
   }
+
+  async list(): Promise<Assignment[]> {
+    return this.repo.find({
+      relations: {
+        developer: true,
+        team: true,
+      },
+    });
+  }
 }

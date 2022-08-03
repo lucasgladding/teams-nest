@@ -10,6 +10,6 @@ export function getDataSourceConfig(config: ConfigService): DataSourceOptions {
     password: config.get('DB_PASSWORD'),
     database: config.get('DB_DATABASE'),
     entities: ['src/**/*.entity.ts'],
-    migrations: ['migrations/*.ts'],
+    migrations: ['database/migrations/*.ts'],
   };
 }

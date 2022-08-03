@@ -29,8 +29,8 @@ export class AssignmentFactory extends BaseFactory<Assignment> {
   async generate(): Promise<Generator> {
     await this.preload();
     return {
-      developer_id: () => faker.helpers.arrayElement(this.developers).id,
-      team_id: () => faker.helpers.arrayElement(this.teams).id,
+      developer: () => faker.helpers.arrayElement(this.developers),
+      team: () => faker.helpers.arrayElement(this.teams),
       starts_on: () => faker.date.past(1),
     };
   }

@@ -6,6 +6,8 @@ import { DataSource } from 'typeorm';
 import { Assignment } from './assignment.entity';
 import { AssignmentFactory } from './assignment.factory';
 import { AssignmentService } from './assignment.service';
+import { DeveloperFactory } from '../developers/developer.factory';
+import { TeamFactory } from '../teams/team.factory';
 
 import { getDataSourceConfig } from '../../database/datasource/helpers';
 import { transaction } from '../helpers/testing';
@@ -54,9 +56,12 @@ describe('AssignmentService', () => {
       const repo = manager.getRepository(Assignment);
       const service = new AssignmentService(repo);
 
+      const developer = await new DeveloperFactory(manager).create();
+      const team = await new TeamFactory(manager).create();
+
       const assignment = new Assignment();
-      assignment.developer_id = '1234';
-      assignment.team_id = '5678';
+      assignment.developer = developer;
+      assignment.team = team;
       assignment.starts_on = new Date();
       await service.create(assignment);
 
@@ -73,9 +78,12 @@ describe('AssignmentService', () => {
       const repo = manager.getRepository(Assignment);
       const service = new AssignmentService(repo);
 
+      const developer = await new DeveloperFactory(manager).create();
+      const team = await new TeamFactory(manager).create();
+
       const update = new Assignment();
-      update.developer_id = '5678';
-      update.team_id = '1234';
+      update.developer = developer;
+      update.team = team;
       update.starts_on = new Date();
       const updated = await service.update(assignment.id, update);
 
