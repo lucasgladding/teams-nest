@@ -6,14 +6,18 @@ import { DataSource } from 'typeorm';
 import { Assignment } from './assignment.entity';
 import { AssignmentFactory } from './assignment.factory';
 import { AssignmentService } from './assignment.service';
+import { Developer } from '../developers/developer.entity';
 import { DeveloperFactory } from '../developers/developer.factory';
+import { Team } from '../teams/team.entity';
 import { TeamFactory } from '../teams/team.factory';
 
 import { getDataSourceConfig } from '../../database/datasource/helpers';
-import { transaction } from '../helpers/testing';
+import { flush, transaction } from '../helpers/testing';
 
 describe('AssignmentService', () => {
   let source: DataSource;
+  let developer: Developer;
+  let team: Team;
 
   beforeAll(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -28,9 +32,11 @@ describe('AssignmentService', () => {
     }).compile();
 
     source = app.get<DataSource>(DataSource);
+    await flush(source);
 
-    const repo = source.manager.getRepository(Assignment);
-    await repo.clear();
+    const manager = source.manager;
+    developer = await new DeveloperFactory(manager).create();
+    team = await new TeamFactory(manager).create();
   });
 
   afterAll(async () => {
@@ -56,17 +62,14 @@ describe('AssignmentService', () => {
       const repo = manager.getRepository(Assignment);
       const service = new AssignmentService(repo);
 
-      const developer = await new DeveloperFactory(manager).create();
-      const team = await new TeamFactory(manager).create();
+      const subject = new Assignment();
+      subject.developer_id = developer.id;
+      subject.team_id = team.id;
+      subject.starts_on = new Date();
+      await service.create(subject);
 
-      const assignment = new Assignment();
-      assignment.developer = developer;
-      assignment.team = team;
-      assignment.starts_on = new Date();
-      await service.create(assignment);
-
-      const found = await service.find(assignment.id);
-      expect(found).toEqual(assignment);
+      const response = await service.find(subject.id);
+      expect(response).toEqual(subject);
     });
   });
 
@@ -78,16 +81,13 @@ describe('AssignmentService', () => {
       const repo = manager.getRepository(Assignment);
       const service = new AssignmentService(repo);
 
-      const developer = await new DeveloperFactory(manager).create();
-      const team = await new TeamFactory(manager).create();
+      const subject = new Assignment();
+      subject.developer = developer;
+      subject.team = team;
+      subject.starts_on = new Date();
+      const response = await service.update(assignment.id, subject);
 
-      const update = new Assignment();
-      update.developer = developer;
-      update.team = team;
-      update.starts_on = new Date();
-      const updated = await service.update(assignment.id, update);
-
-      expect(updated).toEqual(expect.objectContaining(update));
+      expect(response).toEqual(subject);
     });
   });
 
@@ -99,7 +99,7 @@ describe('AssignmentService', () => {
       const repo = manager.getRepository(Assignment);
       const service = new AssignmentService(repo);
 
-      expect(await service.find(assignment.id)).toEqual(assignment);
+      expect(await service.find(assignment.id)).not.toEqual(null);
 
       await service.delete(assignment.id);
 

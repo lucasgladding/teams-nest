@@ -8,7 +8,7 @@ import { TeamFactory } from './team.factory';
 import { TeamService } from './team.service';
 
 import { getDataSourceConfig } from '../../database/datasource/helpers';
-import { transaction } from '../helpers/testing';
+import { flush, transaction } from '../helpers/testing';
 
 describe('TeamService', () => {
   let source: DataSource;
@@ -26,9 +26,7 @@ describe('TeamService', () => {
     }).compile();
 
     source = app.get<DataSource>(DataSource);
-
-    const repo = source.manager.getRepository(Team);
-    await repo.clear();
+    await flush(source);
   });
 
   afterAll(async () => {

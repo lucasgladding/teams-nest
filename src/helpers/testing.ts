@@ -11,3 +11,11 @@ export async function transaction(
   await runner.rollbackTransaction();
   await runner.release();
 }
+
+export async function flush(source: DataSource) {
+  await source.query('SET FOREIGN_KEY_CHECKS = 0');
+  await source.query('TRUNCATE TABLE assignment');
+  await source.query('TRUNCATE TABLE developer');
+  await source.query('TRUNCATE TABLE team');
+  await source.query('SET FOREIGN_KEY_CHECKS = 1');
+}

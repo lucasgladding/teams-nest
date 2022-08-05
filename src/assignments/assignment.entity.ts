@@ -6,14 +6,20 @@ import { Team } from '../teams/team.entity';
 
 @Entity()
 export class Assignment extends BaseEntity {
-  @Column()
+  @Column({ precision: 6 })
   starts_on: Date;
 
-  @ManyToOne(() => Developer)
+  @Column()
+  developer_id: string;
+
+  @Column()
+  team_id: string;
+
+  @ManyToOne(() => Developer, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'developer_id' })
   developer: Developer;
 
-  @ManyToOne(() => Team)
+  @ManyToOne(() => Team, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'team_id' })
   team: Team;
 }

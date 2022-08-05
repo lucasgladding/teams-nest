@@ -14,7 +14,7 @@ export abstract class BaseFactory<T> {
   ) {}
 
   async create(): Promise<T> {
-    const instance = this.build();
+    const instance = await this.build();
     await this.manager.save(instance);
     return instance;
   }

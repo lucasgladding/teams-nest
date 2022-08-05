@@ -8,7 +8,7 @@ import { DeveloperFactory } from './developer.factory';
 import { DeveloperService } from './developer.service';
 
 import { getDataSourceConfig } from '../../database/datasource/helpers';
-import { transaction } from '../helpers/testing';
+import { flush, transaction } from '../helpers/testing';
 
 describe('DeveloperService', () => {
   let source: DataSource;
@@ -26,9 +26,7 @@ describe('DeveloperService', () => {
     }).compile();
 
     source = app.get<DataSource>(DataSource);
-
-    const repo = source.manager.getRepository(Developer);
-    await repo.clear();
+    await flush(source);
   });
 
   afterAll(async () => {
