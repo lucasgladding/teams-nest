@@ -20,6 +20,10 @@ export class AssignmentService extends BaseService<Assignment> {
         developer: true,
         team: true,
       },
+      order: {
+        developer_id: 'ASC',
+        starts_on: 'ASC',
+      },
     });
   }
 }

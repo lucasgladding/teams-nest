@@ -3,7 +3,7 @@ import { EntityManager } from 'typeorm';
 export namespace BaseFactory {
   export type Constructable<T> = new () => T;
   export type Generate<T> = {
-    [P in keyof T as Exclude<P, 'id'>]: () => T[P];
+    [P in keyof T as Exclude<P, 'id'>]?: () => T[P];
   };
 }
 

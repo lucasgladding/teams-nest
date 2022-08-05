@@ -31,9 +31,7 @@ export class AssignmentFactory extends BaseFactory<Assignment> {
     const developer = faker.helpers.arrayElement(this.developers);
     const team = faker.helpers.arrayElement(this.teams);
     return {
-      developer: () => developer,
       developer_id: () => developer.id,
-      team: () => team,
       team_id: () => team.id,
       starts_on: () => faker.date.past(1),
     };
