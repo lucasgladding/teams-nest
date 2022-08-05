@@ -1,19 +1,28 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 
 import { Developer } from './developer.entity';
 import { ServiceContract } from '../shared/base.service';
+import { JsonInterceptor } from '../shared/json.interceptor';
 
 interface CreateDeveloperDTO {
   name: string;
 }
 
-@Controller('developers')
+@Controller('api/developers')
 export class DeveloperController {
   constructor(
     @Inject('services.developers')
     private service: ServiceContract<Developer>,
   ) {}
 
+  @UseInterceptors(JsonInterceptor)
   @Get()
   async list(): Promise<Developer[]> {
     return this.service.list();
